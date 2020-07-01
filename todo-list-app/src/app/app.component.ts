@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Todo } from './todo.model';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'todo-list-app';
+  todoList: Todo[] = [];
+
+  addTodo(value) {
+    if(value !== "") {
+      this.todoList.push(value);
+    }
+    console.log(this.todoList);
+  }
+
+  deleteItem(index) {
+    console.log("Deleting index " + index);
+    this.todoList.splice(index, 1);
+  }
+
+  todoSubmit(value: any) {
+    console.log("enter pressed with: " + value.todo);
+    if(value !== "") {
+      this.todoList.push(value.todo);
+    }
+  }
 }
