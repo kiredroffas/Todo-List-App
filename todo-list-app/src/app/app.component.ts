@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { Todo } from './todo.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Todo } from './shared/todo.model';
+import { Subscription } from 'rxjs';
+import { TodoService } from './shared/todo.service';
 
 
 @Component({
@@ -7,62 +9,39 @@ import { Todo } from './todo.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   todoList: Todo[] = [];
+  subscription: Subscription;
 
-  addTodo(value) {
-    console.log("add button pressed with: " + value.todo);
-    if(value !== "") {
-      const arr = value.split("|");
-      const first = arr[0];
+  constructor(private todoService: TodoService) {
 
-      const subActivites: any = [];
-      if(arr.length > 1) {
-        for(let i=1; i < arr.length; i++) {
-          subActivites.push({subActivity: arr[i]})
-          
-        }
-        const newTD = { activity: first, subItems: subActivites }
-        this.todoList.push(newTD);
-      }
-      else {
-        const newTD = { activity: value}
-        this.todoList.push(newTD);
-      }
-    }
-    console.log(this.todoList);
   }
 
-  deleteItem(index) {
-    console.log("Deleting index " + index);
-    this.todoList.splice(index, 1);
+  ngOnInit() {
+    this.subscription = this.todoService.todoListChanged.subscribe(
+      (todoList: Todo[]) => {
+        this.todoList = todoList;
+      }
+    )
   }
 
-  deleteNestedItem(index, subIndex) {
-    console.log("Deleting nexted item: " + index, subIndex);
-    this.todoList[index].subItems.splice(subIndex, 1);
+  onAddTodo(value) {
+    this.todoService.addTodo(value);
   }
 
-  todoSubmit(value) {
-    console.log("enter pressed with: " + value.todo);
-    if(value !== "") {
-      const arr = value.todo.split("|");
-      const first = arr[0];
+  onDeleteItem(index) {
+    this.todoService.deleteItem(index);
+  }
 
-      const subActivites: any = [];
-      if(arr.length > 1) {
-        for(let i=1; i < arr.length; i++) {
-          subActivites.push({subActivity: arr[i]})
-          
-        }
-        const newTD = { activity: first, subItems: subActivites }
-        this.todoList.push(newTD);
-      }
-      else {
-        const newTD = { activity: value.todo}
-        this.todoList.push(newTD);
-      }
-    }
-    console.log(this.todoList);
+  onDeleteNestedItem(index, subIndex) {
+    this.todoService.deleteNestedItem(index, subIndex);
+  }
+
+  onTodoEnter(value) {
+    this.todoService.todoEnter(value);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
