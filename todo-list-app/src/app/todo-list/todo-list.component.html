@@ -1,10 +1,32 @@
 <div class="data">
-    <ul class="list-instyled" *ngFor="let todo of todoList; let i = index">
-        <li>{{todo.activity}}<i (click)="onDeleteItem(i)" class="material-icons">delete</i></li>
-        <ul class="list-instyled">
-            <li *ngFor="let subItem of todo.subItems; let j = index">
-                {{subItem.subActivity}}<i (click)="onDeleteNestedItem(i,j)" class="material-icons">delete</i>
+    <ul class="list-instyled" *ngFor="let todo of todoList; let i = index;">
+        <li>
+            {{todo.activity}}
+            <i (click)="onDeleteItem(i)" class="material-icons">delete</i>
+            <i (click)="toggleEditMode(i)" class="material-icons">edit</i>  
+        </li>
+        <div *ngIf="editMode && isEditorVisible[i].item">
+            <div class="form-group">
+                <div class="input-group-prepend">
+                    <input type="text" #newItem ngModel class="form-control" name="editedItem">
+                    <button class="btn btn-success" (click)="onEditItem(i, newItem.value)">Change</button>
+                </div>
+            </div>
+        </div>
+        <ul class="list-instyled" *ngFor="let subItem of todo.subItems; let j = index">
+            <li>
+                {{subItem.subActivity}}
+                <i (click)="onDeleteNestedItem(i,j)" class="material-icons">delete</i>
+                <i (click)="toggleEditMode(i,j)" class="material-icons">edit</i>
             </li>
+            <div *ngIf="editMode && isEditorVisible[i].subItems[j]">
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <input type="text" #newSubitem ngModel class="form-control" name="editedSubitem">
+                        <button class="btn btn-success" (click)="onEditNestedItem(i,j,newSubitem.value)">Change</button>
+                    </div>
+                </div>
+            </div>
         </ul>
     </ul>
 </div>

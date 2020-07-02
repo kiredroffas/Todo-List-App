@@ -35,18 +35,6 @@ export class TodoService {
     this.todoListChanged.next(this.todoList.slice());
   }
 
-  deleteItem(index) {
-    console.log("Deleting index " + index);
-    this.todoList.splice(index, 1);
-    this.todoListChanged.next(this.todoList.slice());
-  }
-
-  deleteNestedItem(index, subIndex) {
-    console.log("Deleting nexted item: " + index, subIndex);
-    this.todoList[index].subItems.splice(subIndex, 1);
-    this.todoListChanged.next(this.todoList.slice());
-  }
-
   todoEnter(value) {
     console.log("enter pressed with: " + value.todo);
     if(value !== "") {
@@ -70,4 +58,30 @@ export class TodoService {
     console.log(this.todoList);
     this.todoListChanged.next(this.todoList.slice());
   }
+
+  editItem(index, newItemValue) {
+    console.log("Editing index: " + index + " with " + newItemValue);
+    this.todoList[index].activity = newItemValue;
+    this.todoListChanged.next(this.todoList.slice());
+  }
+
+  editNestedItem(index, subIndex, newSubItemValue) {
+    console.log("Editing nested item w/ index: " + index, subIndex + " with " + newSubItemValue);
+    this.todoList[index].subItems[subIndex].subActivity = newSubItemValue;
+    this.todoListChanged.next(this.todoList.slice());
+  }
+
+  deleteItem(index) {
+    console.log("Deleting index " + index);
+    this.todoList.splice(index, 1);
+    this.todoListChanged.next(this.todoList.slice());
+  }
+
+  deleteNestedItem(index, subIndex) {
+    console.log("Deleting nexted item: " + index, subIndex);
+    this.todoList[index].subItems.splice(subIndex, 1);
+    this.todoListChanged.next(this.todoList.slice());
+  }
+
+  
 }
