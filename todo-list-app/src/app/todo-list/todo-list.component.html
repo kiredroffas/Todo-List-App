@@ -1,0 +1,10 @@
+<div class="data">
+    <ul class="list-instyled" *ngFor="let todo of todoList; let i = index">
+        <li>{{todo.activity}}<i (click)="onDeleteItem(i)" class="material-icons">delete</i></li>
+        <ul class="list-instyled">
+            <li *ngFor="let subItem of todo.subItems; let j = index">
+                {{subItem.subActivity}}<i (click)="onDeleteNestedItem(i,j)" class="material-icons">delete</i>
+            </li>
+        </ul>
+    </ul>
+</div>

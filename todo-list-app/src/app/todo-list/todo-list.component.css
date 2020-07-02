@@ -1,0 +1,25 @@
+/*Google fonts*/@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.data {    
+    margin-top: 1em;
+}
+
+li { 
+    background: #fff; 
+    border-left: 4px solid #F97300; 
+    padding: 1em; 
+    margin: 1em auto; 
+    color: #666; 
+    font-family: "Raleway";
+}
+
+.data li i {    
+    float: right;    
+    color: #888;    
+    cursor: pointer;
+}
