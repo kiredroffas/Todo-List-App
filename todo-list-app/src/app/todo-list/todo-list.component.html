@@ -1,29 +1,43 @@
 <div class="data">
     <ul class="list-instyled" *ngFor="let todo of todoList; let i = index;">
-        <li>
-            {{todo.activity}}
-            <i (click)="onDeleteItem(i)" class="material-icons">delete</i>
-            <i (click)="toggleEditMode(i)" class="material-icons">edit</i>  
-        </li>
+        <div class="row">
+            <div class="col-sm-11">
+                <li (click)="onCompleteItem(i)" [ngClass]="todo.completed ? 'strikethrough' : 'null'">
+                    {{todo.activity}} 
+                </li>
+            </div>
+            <div class="col-sm-1">
+                <i (click)="toggleEditMode(i)" class="material-icons">edit</i>
+                <i (click)="onDeleteItem(i)" class="material-icons">delete</i>
+            </div>
+        </div>
         <div *ngIf="editMode && isEditorVisible[i].item">
             <div class="form-group">
                 <div class="input-group-prepend">
                     <input type="text" #newItem ngModel class="form-control" name="editedItem">
                     <button class="btn btn-success" (click)="onEditItem(i, newItem.value)">Change</button>
+                    <button class="btn btn-danger" (click)="cancelEditMode()">Cancel</button>
                 </div>
             </div>
         </div>
         <ul class="list-instyled" *ngFor="let subItem of todo.subItems; let j = index">
-            <li>
-                {{subItem.subActivity}}
-                <i (click)="onDeleteNestedItem(i,j)" class="material-icons">delete</i>
-                <i (click)="toggleEditMode(i,j)" class="material-icons">edit</i>
-            </li>
+            <div class="row">
+                <div class="col-sm-11">
+                    <li (click)="onCompleteSubItem(i,j)" [ngClass]="subItem.completed ? 'strikethrough' : 'null'">
+                        {{subItem.subActivity}}    
+                    </li>
+                </div>
+                <div class="col-sm-1">
+                    <i (click)="toggleEditMode(i,j)" class="material-icons">edit</i>
+                    <i (click)="onDeleteNestedItem(i,j)" class="material-icons">delete</i>
+                </div>
+            </div>
             <div *ngIf="editMode && isEditorVisible[i].subItems[j]">
                 <div class="form-group">
                     <div class="input-group-prepend">
                         <input type="text" #newSubitem ngModel class="form-control" name="editedSubitem">
                         <button class="btn btn-success" (click)="onEditNestedItem(i,j,newSubitem.value)">Change</button>
+                        <button class="btn btn-danger" (click)="cancelEditMode()">Cancel</button>
                     </div>
                 </div>
             </div>

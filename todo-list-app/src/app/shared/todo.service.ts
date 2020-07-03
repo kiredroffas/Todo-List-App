@@ -20,14 +20,14 @@ export class TodoService {
       const subActivites: any = [];
       if(arr.length > 1) {
         for(let i=1; i < arr.length; i++) {
-          subActivites.push({subActivity: arr[i]})
+          subActivites.push({subActivity: arr[i], completed: false})
           
         }
-        const newTD = { activity: first, subItems: subActivites }
+        const newTD = { activity: first, completed: false, subItems: subActivites }
         this.todoList.push(newTD);
       }
       else {
-        const newTD = { activity: value }
+        const newTD = { activity: value, completed: false }
         this.todoList.push(newTD);
       }
     }
@@ -44,18 +44,28 @@ export class TodoService {
       const subActivites: any = [];
       if(arr.length > 1) {
         for(let i=1; i < arr.length; i++) {
-          subActivites.push({subActivity: arr[i]})
+          subActivites.push({subActivity: arr[i], completed: false})
           
         }
-        const newTD = { activity: first, subItems: subActivites }
+        const newTD = { activity: first, completed: false, subItems: subActivites }
         this.todoList.push(newTD);
       }
       else {
-        const newTD = { activity: value.todo }
+        const newTD = { activity: value.todo, completed: false }
         this.todoList.push(newTD);
       }
     }
     console.log(this.todoList);
+    this.todoListChanged.next(this.todoList.slice());
+  }
+
+  toggleCompleteItem(index) {
+    this.todoList[index].completed = !this.todoList[index].completed;
+    this.todoListChanged.next(this.todoList.slice());
+  }
+
+  toggleCompleteSubItem(index, subIndex) {
+    this.todoList[index].subItems[subIndex].completed = !this.todoList[index].subItems[subIndex].completed;
     this.todoListChanged.next(this.todoList.slice());
   }
 
@@ -83,5 +93,8 @@ export class TodoService {
     this.todoListChanged.next(this.todoList.slice());
   }
 
+  updateTodoList() {
+    this.todoListChanged.next(this.todoList.slice());
+  }
   
 }

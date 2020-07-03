@@ -22,24 +22,38 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.subscription = this.todoService.todoListChanged.subscribe(
       (todoList: Todo[]) => {
         this.todoList = todoList;
-        
-        this.isEditorVisible = [];
-        for(let i=0; i < this.todoList.length; i++) {
-          if(this.todoList[i].subItems) {
-            const subItemArr = [];
-            for(let item in this.todoList[i].subItems) {
-              subItemArr.push(false);
-            }
-            this.isEditorVisible.push({item: false, subItems: subItemArr});
-          }
-          else {
-            this.isEditorVisible.push({item: false});
-          }
-          
-        }
+        console.log("TodoList:");
+        console.log(todoList);
+
+        this.clearEditorVisable();
+        console.log("Editor:");
         console.log(this.isEditorVisible);
       }
     )
+  }
+
+  clearEditorVisable() {
+    this.isEditorVisible = [];
+    for (let i = 0; i < this.todoList.length; i++) {
+      if (this.todoList[i].subItems) {
+        const subItemArr = [];
+        for (let item in this.todoList[i].subItems) {
+          subItemArr.push(false);
+        }
+        this.isEditorVisible.push({ item: false, subItems: subItemArr });
+      }
+      else {
+        this.isEditorVisible.push({ item: false });
+      }
+    }
+  }
+
+  onCompleteItem(index) {
+    this.todoService.toggleCompleteItem(index);
+  }
+
+  onCompleteSubItem(index, subIndex) {
+    this.todoService.toggleCompleteSubItem(index, subIndex);
   }
 
   onDeleteItem(index) {
@@ -51,6 +65,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   toggleEditMode(i, j?) {
+    this.clearEditorVisable();
     if(j || j === 0) {
       this.isEditorVisible[i].subItems[j] = true;
     }
@@ -58,20 +73,25 @@ export class TodoListComponent implements OnInit, OnDestroy {
       this.isEditorVisible[i].item = true;
     }
     this.editMode = true;
+    // if(this.editMode !== true) {
+    //   this.todoService.updateTodoList();
+    // }
+  }
+
+  cancelEditMode() {
+    this.editMode = false;
+    this.todoService.updateTodoList();
   }
 
   onEditItem(index: number, newItemValue: string) {
     this.editMode = !this.editMode;
     this.todoService.editItem(index, newItemValue);
-    this.isEditorVisible[index].item = false;
   }
 
   onEditNestedItem(index: number, subIndex: number, newSubItemValue: string) {
     this.editMode = !this.editMode;
     this.todoService.editNestedItem(index, subIndex, newSubItemValue);
-    this.isEditorVisible[index].subItems[subIndex] = false;
   }
-
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
