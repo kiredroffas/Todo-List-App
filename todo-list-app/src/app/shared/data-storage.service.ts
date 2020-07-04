@@ -27,6 +27,10 @@ export class DataStorageService {
     }
 
     saveTodoList() {
-        
+        this.http
+            .post('http://localhost:3001/todoList/update', this.todoService.getTodoList())
+            .subscribe(response => {
+                console.log(response);
+            })
     }
 }

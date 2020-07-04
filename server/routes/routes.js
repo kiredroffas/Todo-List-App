@@ -1,16 +1,32 @@
-// load up our shiny new route for users
-const todoRoutes = require("./todoList");
-
 const appRouter = (app, fs) => {
-  // we've added in a default route here that handles empty routes
-  // at the base API url
+  // base API url
   app.get("/", (req, res) => {
     res.send("Welcome to the Todo List api-server!");
   });
 
-  // run our user route module here to complete the wire up
-  todoRoutes(app, fs);
+  // Data file
+  const dataPath = "./data/todoList.json";
+
+  // READ
+  app.get("/todoList", (req, res) => {
+      fs.readFile(dataPath, "utf8", (err, data) => {
+          if (err) {
+              throw err;
+          }
+
+          res.send(JSON.parse(data));
+      });
+  });
+
+  // UPDATE
+  app.post("/todoList/update", (req, res) => {
+      fs.writeFile(dataPath, JSON.stringify({...req.body}), (err) => {
+          if(err) {
+              throw err;
+          }  
+      });
+      res.send(JSON.stringify({...req.body}));
+  });
 };
 
-// this line is unchanged
 module.exports = appRouter;
