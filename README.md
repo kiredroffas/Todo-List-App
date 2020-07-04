@@ -9,7 +9,7 @@
     * Start the Node.js server by navigating into the server folder and typing "npm start".
 * Only one list can be saved to the server at a time, which is saved as a json file on the server, and will replace the current todo list when fetched.
 * Server maintains the exact state of the todo list when saved, including which tasks are checked off or not.
-* Both the applcation and the server must be running in separate terminals at the same time for everything to work properly.
+* Both the application and the server must be running in separate terminals at the same time for everything to work properly.
 
 # Screenshots
 ## Add tasks by hitting the enter button or clicking the +
