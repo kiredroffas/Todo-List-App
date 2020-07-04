@@ -1,0 +1,24 @@
+{
+    "0": {
+        "activity": "hi",
+        "completed": false
+    },
+    "1": {
+        "activity": "1",
+        "completed": true,
+        "subItems": [
+            {
+                "subActivity": "2",
+                "completed": false
+            },
+            {
+                "subActivity": "3",
+                "completed": true
+            }
+        ]
+    },
+    "2": {
+        "activity": "bye",
+        "completed": true
+    }
+}

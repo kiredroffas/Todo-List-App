@@ -93,7 +93,14 @@ export class TodoService {
     this.todoListChanged.next(this.todoList.slice());
   }
 
-  updateTodoList() {
+  getTodoList() {
+    return this.todoList.slice();
+  }
+
+  updateTodoList(newTodoList?: Todo[]) {
+    if(newTodoList) {
+      this.todoList = newTodoList;
+    }
     this.todoListChanged.next(this.todoList.slice());
   }
   

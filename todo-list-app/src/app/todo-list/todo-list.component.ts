@@ -24,6 +24,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
         this.todoList = todoList;
         console.log("TodoList:");
         console.log(todoList);
+        console.log("JSON todolist:");
+        console.log(JSON.stringify({...todoList}));
 
         this.clearEditorVisable();
         console.log("Editor:");
