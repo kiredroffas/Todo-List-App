@@ -19,7 +19,7 @@ const appRouter = (app, fs) => {
   });
 
   // UPDATE
-  app.post("/todoList/update", (req, res) => {
+  app.put("/todoList/update", (req, res) => {
       fs.writeFile(dataPath, JSON.stringify({...req.body}), (err) => {
           if(err) {
               throw err;
